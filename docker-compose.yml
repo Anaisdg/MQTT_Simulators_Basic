@@ -9,6 +9,8 @@ services:
       - mqtt
   telegraf:
     image: telegraf:latest
+    env_file:
+      - .env
     volumes:
       - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     networks:
@@ -17,18 +19,8 @@ services:
     image: eclipse-mosquitto:latest
     ports:
       - 1883:1883
-    networks:
-      - mqtt
     volumes: 
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
-  influxdb:
-    image: influxdb:latest
-    volumes:
-      # Mount for influxdb data directory and configuration
-      - ./influxdb/data:/var/lib/influxdb2:rw
-    ports:
-      - 8086:8086
-
     networks:
       - mqtt
 networks: 
